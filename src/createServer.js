@@ -3,6 +3,7 @@ const config = require("config");
 const koaCors = require("@koa/cors");
 const bodyParser = require("koa-bodyparser");
 const { initializeLogger, getLogger } = require("./core/logging");
+const { initializeData, shutdownData } = require("./data");
 const { serializeError } = require("serialize-error");
 const installRest = require("./rest");
 const emoji = require("node-emoji");
@@ -23,6 +24,8 @@ module.exports = async function createServer() {
       NODE_ENV,
     },
   });
+
+  await initializeData();
 
   const app = new Koa();
 
@@ -107,7 +110,7 @@ module.exports = async function createServer() {
     },
     start() {
       return new Promise((resolve) => {
-        const port = process.env.PORT || 9001;
+        const port = process.env.PORT || 5000;
         app.listen(port);
         logger.info(`🚀 Server listening on port ${port}`);
         resolve();
@@ -116,6 +119,7 @@ module.exports = async function createServer() {
 
     async stop() {
       app.removeAllListeners();
+      await shutdownData();
       getLogger().info("Goodbye");
     },
   };

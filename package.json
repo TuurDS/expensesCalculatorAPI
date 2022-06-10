@@ -1,9 +1,10 @@
 {
   "version": "1.0.0",
-  "name": "portfolio-backend",
+  "name": "expensescalculatorbackend",
   "scripts": {
     "web": "node src/index.js",
-    "start": "npx env-cmd nodemon src/index.js"
+    "start": "sequelize db:drop && sequelize db:create && npx env-cmd nodemon src/index.js",
+    "dbinit": "sequelize db:drop && sequelize db:create && sequelize db:migrate && sequelize db:seed:all"
   },
   "dependencies": {
     "@koa/cors": "^3.3.0",
@@ -19,6 +20,7 @@
     "nodemon": "^2.0.15",
     "sequelize": "^6.20.1",
     "serialize-error": "8.1.0",
+    "umzug": "^3.1.1",
     "winston": "^3.7.2"
   },
   "packageManager": "yarn@3.2.1"

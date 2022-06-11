@@ -10,12 +10,16 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate({ Event }) {
-      User.hasMany(Event, {
-        foreignKey: 'myTestFK'
-      })
+      User.hasMany(Event)
     }
   }
   User.init({
+    id: {
+      allowNull: false,
+      primaryKey: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,

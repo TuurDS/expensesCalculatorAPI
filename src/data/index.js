@@ -1,6 +1,6 @@
 const { sequelize } = require("./models");
 async function initializeData() {
-  await sequelize.sync();
+  await sequelize.authenticate();
 }
 
 async function shutdownData() {

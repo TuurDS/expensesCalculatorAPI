@@ -3,8 +3,10 @@
   "name": "expensescalculatorbackend",
   "scripts": {
     "web": "node src/index.js",
-    "start": "sequelize db:drop && sequelize db:create && npx env-cmd nodemon src/index.js",
-    "dbinit": "sequelize db:drop && sequelize db:create && sequelize db:migrate && sequelize db:seed:all"
+    "start": "npx env-cmd nodemon src/index.js",
+    "db:init": "sequelize db:migrate && sequelize db:seed:all",
+    "db:clear": "sequelize db:drop && sequelize db:create",
+    "db:generate": "yarn db:clear && yarn db:init"
   },
   "dependencies": {
     "@koa/cors": "^3.3.0",
@@ -19,6 +21,7 @@
     "node-emoji": "^1.11.0",
     "nodemon": "^2.0.15",
     "sequelize": "^6.20.1",
+    "sequelize-auto-migrations": "github:scimonster/sequelize-auto-migrations#a063aa6535a3f580623581bf866cef2d609531ba",
     "serialize-error": "8.1.0",
     "umzug": "^3.1.1",
     "winston": "^3.7.2"

@@ -11,10 +11,12 @@
   "dependencies": {
     "@koa/cors": "^3.3.0",
     "@koa/router": "^10.1.1",
+    "argon2": "^0.28.5",
     "config": "^3.3.7",
     "env-cmd": "^10.1.0",
     "express": "^4.18.1",
     "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
     "mysql2": "^2.3.3",
@@ -23,7 +25,6 @@
     "sequelize": "^6.20.1",
     "sequelize-auto-migrations": "github:scimonster/sequelize-auto-migrations#a063aa6535a3f580623581bf866cef2d609531ba",
     "serialize-error": "8.1.0",
-    "umzug": "^3.1.1",
     "winston": "^3.7.2"
   },
   "packageManager": "yarn@3.2.1"

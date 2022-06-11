@@ -10,13 +10,6 @@ const JWT_SECRET = config.get("auth.jwt.secret");
 const JWT_ISSUER = config.get("auth.jwt.issuer");
 const JWT_EXPIRATION_INTERVAL = config.get("auth.jwt.expirationInterval");
 
-/**
- * * Generates a jsonwebtoken for the given user at the moment the user logs in
- * 
- * @param user 
- * @returns {token} 
- * @exception Error while signing new token
- */
 module.exports.generateJWT = (user) => {
   const tokenData = {
     externalUserId: user.externalUserId,
@@ -42,14 +35,6 @@ module.exports.generateJWT = (user) => {
   });
 };
 
-/**
- * * Checks if a user has a valid jsonwebtoken and returns this decoded token
- * 
- * @param authToken 
- * @returns {token} 
- * @exception Error while verifying token
- * @exception Token could not be parsed
- */
 module.exports.verifyJWT = (authToken) => {
   const verifyOptions = {
     audience: JWT_AUDIENCE,

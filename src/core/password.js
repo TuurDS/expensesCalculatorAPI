@@ -6,12 +6,6 @@ const ARGON_HASH_LENGTH = config.get("auth.argon.hashLength");
 const ARGON_TIME_COST = config.get("auth.argon.timeCost");
 const ARGON_MEMORY_COST = config.get("auth.argon.memoryCost");
 
-/**
- * * Hashes a given password
- * 
- * @param password 
- * @returns {passwordHash}
- */
 module.exports.hashPassword = async (password) => {
   const passwordHash = await argon2.hash(password, {
     type: argon2.argon2id,
@@ -24,13 +18,6 @@ module.exports.hashPassword = async (password) => {
   return passwordHash;
 };
 
-/**
- * * Checks if a given password matches with a given hash
- * 
- * @param password 
- * @param passwordHash 
- * @returns {boolean} 
- */
 module.exports.verifyPassword = async (password, passwordHash) => {
   const valid = await argon2.verify(passwordHash, password, {
     type: argon2.argon2id,

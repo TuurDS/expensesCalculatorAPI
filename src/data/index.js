@@ -1,4 +1,6 @@
 const { sequelize } = require("./models");
+const { getChildLogger } = require("../core/logging");
+
 async function initializeData() {
   await sequelize.authenticate();
 }

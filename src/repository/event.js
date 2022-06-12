@@ -7,7 +7,13 @@ const getAllByUserId = async (userId) => {
 const getById = async (id) => {
     return await Event.findByPk(id, {
         include: [
-            { model: Expense, include: ["includedPersons", "personPaid"] },
+            {
+                model: Expense, attributes: ['id', 'description', 'amount', 'date', 'splitType'],
+                include: [
+                    { model: Person, as: "paid", attributes: ['name', 'id'] },
+                    { model: Person, as: "includedPersons", attributes: ['id', 'name'] }
+                ]
+            }
         ]
     });
 }

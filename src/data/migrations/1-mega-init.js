@@ -16,7 +16,7 @@ var Sequelize = require('sequelize');
 var info = {
     "revision": 1,
     "name": "mega-init",
-    "created": "2022-06-12T14:16:33.572Z",
+    "created": "2022-06-12T14:24:36.784Z",
     "comment": ""
 };
 
@@ -205,9 +205,9 @@ var migrationCommands = function(transaction) {
                         },
                         "allowNull": true
                     },
-                    "personPaidId": {
+                    "paidId": {
                         "type": Sequelize.UUID,
-                        "field": "personPaidId",
+                        "field": "paidId",
                         "onUpdate": "CASCADE",
                         "onDelete": "SET NULL",
                         "references": {

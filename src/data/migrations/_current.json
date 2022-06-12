@@ -96,7 +96,7 @@
                     "field": "EventId",
                     "seqType": "Sequelize.UUID"
                 },
-                "personPaidId": {
+                "paidId": {
                     "allowNull": true,
                     "references": {
                         "model": "person",
@@ -104,7 +104,7 @@
                     },
                     "onDelete": "SET NULL",
                     "onUpdate": "CASCADE",
-                    "field": "personPaidId",
+                    "field": "paidId",
                     "seqType": "Sequelize.UUID"
                 },
                 "PersonId": {

@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       Expense.belongsTo(Person, { as: "paid" })
       Expense.belongsToMany(Person, { through: "ExpensePerson", as: "includedPersons" })
     }
+
   }
   Expense.init({
     id: {

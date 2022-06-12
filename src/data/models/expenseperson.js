@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       ExpensePerson.belongsTo(Person)
       ExpensePerson.belongsTo(Expense)
     }
+
   }
   ExpensePerson.init({
     percentage: {

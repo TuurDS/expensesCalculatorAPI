@@ -16,7 +16,7 @@ var Sequelize = require('sequelize');
 var info = {
     "revision": 1,
     "name": "mega-init",
-    "created": "2022-06-12T14:24:36.784Z",
+    "created": "2022-06-12T14:49:51.347Z",
     "comment": ""
 };
 

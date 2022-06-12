@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       Event.hasMany(Person)
       Event.hasMany(Expense)
     }
+
   }
   Event.init({
     id: {

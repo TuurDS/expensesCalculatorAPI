@@ -10,10 +10,20 @@ const getAllEventsByUserId = async (ctx) => {
 };
 getAllEventsByUserId.validationScheme = null;
 
+const getEventById = async (ctx) => {
+    ctx.body = await eventService.getById(ctx.request.params.id)
+};
+getEventById.validationScheme = {
+    params: {
+        id: Joi.string().uuid(),
+    }
+}
+
 module.exports = (app) => {
     const router = new Router({ prefix: "/event", });
 
     router.get("/", requireAuthentication, validate(getAllEventsByUserId.validationScheme), getAllEventsByUserId);
+    router.get("/:id", requireAuthentication, validate(getEventById.validationScheme), getEventById);
 
     app.use(router.routes()).use(router.allowedMethods());
 };

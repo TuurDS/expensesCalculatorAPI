@@ -1,9 +1,18 @@
-const { Event, User } = require("../data/models")
+const { Event, User, Expense, Person, ExpensePerson } = require("../data/models")
 
 const getAllByUserId = async (userId) => {
-    return events = (await User.findOne({ where: { id: userId } })).getEvents();
+    return (await User.findOne({ where: { id: userId } })).getEvents();
 };
+
+const getById = async (id) => {
+    return await Event.findByPk(id, {
+        include: [
+            { model: Expense, include: ["includedPersons", "personPaid"] },
+        ]
+    });
+}
 
 module.exports = {
     getAllByUserId,
+    getById
 };

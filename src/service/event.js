@@ -9,6 +9,15 @@ const getAllByUserId = async (userId) => {
     }
 };
 
+const getById = async (id) => {
+    try {
+        return await eventRepository.getById(id);
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 module.exports = {
     getAllByUserId,
+    getById
 };

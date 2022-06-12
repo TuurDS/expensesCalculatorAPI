@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate({ Event, Person }) {
       Expense.belongsTo(Event)
-      Expense.belongsTo(Person)
-      Expense.belongsToMany(Person, { through: "ExpensePerson" })
+      Expense.belongsTo(Person, { as: 'personPaid' })
+      Expense.belongsToMany(Person, { through: "ExpensePerson", as: 'includedPersons' })
     }
   }
   Expense.init({

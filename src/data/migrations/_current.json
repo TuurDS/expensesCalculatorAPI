@@ -63,7 +63,7 @@
                 "amount": {
                     "allowNull": false,
                     "field": "amount",
-                    "seqType": "Sequelize.DOUBLE PRECISION"
+                    "seqType": "Sequelize.DOUBLE"
                 },
                 "date": {
                     "allowNull": false,
@@ -96,6 +96,17 @@
                     "field": "EventId",
                     "seqType": "Sequelize.UUID"
                 },
+                "personPaidId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "person",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "personPaidId",
+                    "seqType": "Sequelize.UUID"
+                },
                 "PersonId": {
                     "allowNull": true,
                     "references": {
@@ -116,12 +127,12 @@
                 "percentage": {
                     "allowNull": true,
                     "field": "percentage",
-                    "seqType": "Sequelize.DOUBLE PRECISION"
+                    "seqType": "Sequelize.DOUBLE"
                 },
                 "amount": {
                     "allowNull": true,
                     "field": "amount",
-                    "seqType": "Sequelize.DOUBLE PRECISION"
+                    "seqType": "Sequelize.DOUBLE"
                 },
                 "createdAt": {
                     "allowNull": false,
@@ -142,6 +153,7 @@
                     "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
                     "field": "ExpenseId",
+                    "allowNull": true,
                     "seqType": "Sequelize.UUID"
                 },
                 "PersonId": {
@@ -153,6 +165,7 @@
                     "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
                     "field": "PersonId",
+                    "allowNull": true,
                     "seqType": "Sequelize.UUID"
                 }
             },

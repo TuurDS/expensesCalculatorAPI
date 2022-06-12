@@ -1,10 +1,10 @@
-const { sequelize, User } = require("../data/models")
+const { User } = require("../data/models")
 const findByName = async (username) => {
     const user = await User.findOne({
-        where: { name: username }
+        where: { name: username },
+        raw: true
     });
-    console.log(user.dataValues);
-    return user.dataValues;
+    return user;
 };
 
 module.exports = {

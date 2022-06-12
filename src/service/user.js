@@ -17,7 +17,7 @@ const makeLoginData = async (user) => {
   };
 };
 
-const makeExposedUser = ({ ...user }) => user;
+const makeExposedUser = ({ password, createdAt, updatedAt, ...user }) => user;
 
 const login = async (name, password) => {
   try {

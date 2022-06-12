@@ -1,5 +1,6 @@
 const config = require("config");
 const jwt = require("jsonwebtoken");
+const { getChildLogger } = require("../core/logging");
 const debugLog = (message, meta = {}) => {
   if (!this.logger) this.logger = getChildLogger("jwt-core");
   this.logger.debug(message, meta);
@@ -12,9 +13,8 @@ const JWT_EXPIRATION_INTERVAL = config.get("auth.jwt.expirationInterval");
 
 module.exports.generateJWT = (user) => {
   const tokenData = {
-    externalUserId: user.externalUserId,
     userId: user.id,
-    roles: [user.rolename],
+    role: [user.role],
   };
 
   const signOptions = {

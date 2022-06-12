@@ -16,7 +16,7 @@ var Sequelize = require('sequelize');
 var info = {
     "revision": 1,
     "name": "mega-init",
-    "created": "2022-06-11T09:20:51.822Z",
+    "created": "2022-06-12T13:16:28.390Z",
     "comment": ""
 };
 
@@ -230,12 +230,12 @@ var migrationCommands = function (transaction) {
                 "percentage": {
                     "type": Sequelize.DOUBLE,
                     "field": "percentage",
-                    "allowNull": false
+                    "allowNull": true
                 },
                 "amount": {
                     "type": Sequelize.DOUBLE,
                     "field": "amount",
-                    "allowNull": false
+                    "allowNull": true
                 },
                 "createdAt": {
                     "type": Sequelize.DATE,

@@ -15,14 +15,14 @@ const requireAuthentication = async (ctx, next) => {
 };
 
 const makeRequireRole = (role) => async (ctx, next) => {
-    const roles = decode(ctx.headers.authorization.substr(7))?.roles || [];
+    const roles = decode(ctx.headers.authorization.substr(7))?.role || [];
 
     userService.checkRequireRole(role, roles);
     return next();
 };
 
 const makeBannedRole = (role) => async (ctx, next) => {
-    const roles = decode(ctx.headers.authorization.substr(7))?.roles || [];
+    const roles = decode(ctx.headers.authorization.substr(7))?.role || [];
 
     userService.checkBanRole(role, roles);
     return next();

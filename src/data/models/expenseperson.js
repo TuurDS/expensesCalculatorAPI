@@ -15,19 +15,11 @@ module.exports = (sequelize, DataTypes) => {
   ExpensePerson.init({
     percentage: {
       type: DataTypes.DOUBLE,
-      allowNull: false,
-      validate: {
-        notNull: { msg: 'ExpensePerson must have a percentage' },
-        notEmpty: { msg: 'percentage must not be empty' },
-      }
+      allowNull: true,
     },
     amount: {
       type: DataTypes.DOUBLE,
-      allowNull: false,
-      validate: {
-        notNull: { msg: 'ExpensePerson must have an amount' },
-        notEmpty: { msg: 'amount must not be empty' },
-      }
+      allowNull: true,
     },
   }, {
     sequelize,

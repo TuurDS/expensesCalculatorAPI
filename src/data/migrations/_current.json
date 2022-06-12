@@ -63,7 +63,7 @@
                 "amount": {
                     "allowNull": false,
                     "field": "amount",
-                    "seqType": "Sequelize.DOUBLE"
+                    "seqType": "Sequelize.DOUBLE PRECISION"
                 },
                 "date": {
                     "allowNull": false,
@@ -114,14 +114,14 @@
             "tableName": "expensePerson",
             "schema": {
                 "percentage": {
-                    "allowNull": false,
+                    "allowNull": true,
                     "field": "percentage",
-                    "seqType": "Sequelize.DOUBLE"
+                    "seqType": "Sequelize.DOUBLE PRECISION"
                 },
                 "amount": {
-                    "allowNull": false,
+                    "allowNull": true,
                     "field": "amount",
-                    "seqType": "Sequelize.DOUBLE"
+                    "seqType": "Sequelize.DOUBLE PRECISION"
                 },
                 "createdAt": {
                     "allowNull": false,

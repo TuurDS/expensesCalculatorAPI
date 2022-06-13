@@ -63,7 +63,7 @@
                 "amount": {
                     "allowNull": false,
                     "field": "amount",
-                    "seqType": "Sequelize.DOUBLE"
+                    "seqType": "Sequelize.DOUBLE PRECISION"
                 },
                 "date": {
                     "allowNull": false,
@@ -91,7 +91,7 @@
                         "model": "event",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "onUpdate": "CASCADE",
                     "field": "EventId",
                     "seqType": "Sequelize.UUID"
@@ -127,12 +127,12 @@
                 "percentage": {
                     "allowNull": true,
                     "field": "percentage",
-                    "seqType": "Sequelize.DOUBLE"
+                    "seqType": "Sequelize.DOUBLE PRECISION"
                 },
                 "amount": {
                     "allowNull": true,
                     "field": "amount",
-                    "seqType": "Sequelize.DOUBLE"
+                    "seqType": "Sequelize.DOUBLE PRECISION"
                 },
                 "createdAt": {
                     "allowNull": false,
@@ -186,6 +186,7 @@
                 },
                 "name": {
                     "allowNull": false,
+                    "unique": true,
                     "field": "name",
                     "seqType": "Sequelize.STRING"
                 },
@@ -205,7 +206,7 @@
                         "model": "event",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "onUpdate": "CASCADE",
                     "field": "EventId",
                     "seqType": "Sequelize.UUID"

@@ -17,7 +17,19 @@ const getById = async (id) => {
     }
 };
 
+const updateByEventId = async (object, userId) => {
+    try {
+        if (await eventRepository.validate(object, userId)) {
+            return await eventRepository.updateByEventId(object, userId);
+        }
+        return false;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 module.exports = {
     getAllByUserId,
-    getById
+    getById,
+    updateByEventId
 };

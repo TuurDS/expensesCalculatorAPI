@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate({ User, Person, Expense }) {
       Event.belongsTo(User)
-      Event.hasMany(Person)
-      Event.hasMany(Expense)
+      Event.hasMany(Person, { onDelete: 'cascade', hooks: true })
+      Event.hasMany(Expense, { onDelete: 'cascade', hooks: true })
     }
 
   }

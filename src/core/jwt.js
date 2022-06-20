@@ -13,8 +13,7 @@ const JWT_EXPIRATION_INTERVAL = config.get("auth.jwt.expirationInterval");
 
 module.exports.generateJWT = (user) => {
   const tokenData = {
-    userId: user.id,
-    role: [user.role],
+    user: { id: user.id, role: user.role, name: user.name },
   };
 
   const signOptions = {

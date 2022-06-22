@@ -17,9 +17,9 @@ const getById = async (id) => {
     }
 };
 
-const getPinnedEvents = async ({pinnedEvents}) => {
+const getPinnedEvents = async (userId) => {
     try {
-        return await eventRepository.getPinnedEvents(pinnedEvents);
+        return await eventRepository.getPinnedEvents(userId);
     } catch (error) {
         console.error(error);
     }
@@ -44,10 +44,23 @@ const updateByEventId = async (object, userId) => {
     }
 };
 
+
+const updateEventPinById = async (object, userId) => {
+    try {
+        if (await eventRepository.validate(object, userId)) {
+            return await eventRepository.updateEventPinById(object);
+        }
+        return false;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 module.exports = {
     getAllByUserId,
     getById,
     updateByEventId,
     searchEventByName,
-    getPinnedEvents
+    getPinnedEvents,
+    updateEventPinById
 };

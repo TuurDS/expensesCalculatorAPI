@@ -31,6 +31,15 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg: 'name must not be empty' },
       }
     },
+    pinned: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+      validate: {
+        notNull: { msg: 'Cannot be null' },
+        notEmpty: { msg: 'Cannot be empty' },
+      }
+    },
   }, {
     sequelize,
     tableName: 'event',

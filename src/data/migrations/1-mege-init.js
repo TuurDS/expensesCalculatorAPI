@@ -15,8 +15,8 @@ var Sequelize = require('sequelize');
 
 var info = {
     "revision": 1,
-    "name": "mega-init",
-    "created": "2022-06-13T04:33:50.388Z",
+    "name": "mege-init",
+    "created": "2022-06-22T19:36:05.749Z",
     "comment": ""
 };
 
@@ -80,6 +80,12 @@ var migrationCommands = function (transaction) {
                     "type": Sequelize.STRING,
                     "field": "name",
                     "allowNull": false
+                },
+                "pinned": {
+                    "type": Sequelize.BOOLEAN,
+                    "field": "pinned",
+                    "allowNull": false,
+                    "defaultValue": false
                 },
                 "createdAt": {
                     "type": Sequelize.DATE,

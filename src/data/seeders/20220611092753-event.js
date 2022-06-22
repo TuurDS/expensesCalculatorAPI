@@ -14,6 +14,7 @@ module.exports = {
     await queryInterface.bulkInsert('event', [{
       id: 'ee22c4f1-e86e-4fc0-99d1-f3f639667350',
       name: 'Expenses aan zee',
+      pinned: true,
       UserId: '58c6a897-7fda-4b85-b2ef-6d5e60762bcc',
       createdAt: '2022-06-11 11:25:43.000',
       updatedAt: '2022-06-11 11:25:43.000',
@@ -24,6 +25,7 @@ module.exports = {
       UserId: '58c6a897-7fda-4b85-b2ef-6d5e60762bcc',
       createdAt: '2022-06-11 11:25:43.000',
       updatedAt: '2022-06-11 11:25:43.000',
+      pinned: false,
     },
     {
       id: '8e956735-0ac8-4976-91a7-9b2ee4027e2f',
@@ -31,6 +33,7 @@ module.exports = {
       UserId: '36c6a897-7fda-4b85-b2ef-6d5e60762bcc',
       createdAt: '2022-06-11 11:25:43.000',
       updatedAt: '2022-06-11 11:25:43.000',
+      pinned: false,
     }
     ], {});
   },

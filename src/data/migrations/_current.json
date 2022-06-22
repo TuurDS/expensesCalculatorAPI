@@ -18,6 +18,14 @@
                     "field": "name",
                     "seqType": "Sequelize.STRING"
                 },
+                "pinned": {
+                    "defaultValue": {
+                        "value": false
+                    },
+                    "allowNull": false,
+                    "field": "pinned",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
                 "createdAt": {
                     "allowNull": false,
                     "field": "createdAt",

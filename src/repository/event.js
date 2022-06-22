@@ -6,12 +6,12 @@ const getAllByUserId = async (userId) => {
     return (await User.findOne({ where: { id: userId } })).getEvents();
 };
 
-const getPinnedEvents = async (pinnedEvents) => {
-    return (await Event.findAll({ where: { id: { [Op.in]: pinnedEvents}} }));
+const getPinnedEvents = async (userId) => {
+    return (await Event.findAll({ where: { UserId: userId, pinned: true } }));
 };
 
-const searchByName = async (name,userId) => {
-    return (await Event.findAll({ where: { name: { [Op.substring]: `${name}`} , UserId: userId} }));
+const searchByName = async (name, userId) => {
+    return (await Event.findAll({ where: { name: { [Op.substring]: `${name}` }, UserId: userId } }));
 };
 
 const getById = async (id) => {
@@ -89,6 +89,16 @@ const updateByEventId = async (obj, userId) => {
         await t.rollback();
         return false;
     }
+};
+
+const updateEventPinById = async (object) => {
+    //get event by id
+    const event = await Event.findByPk(object.id);
+    //update pinned
+    event.set('pinned', object.pinned);
+    //save
+    await event.save();
+    return true;
 }
 
 module.exports = {
@@ -97,5 +107,6 @@ module.exports = {
     validate,
     updateByEventId,
     searchByName,
-    getPinnedEvents
+    getPinnedEvents,
+    updateEventPinById
 };

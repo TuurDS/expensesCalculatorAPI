@@ -21,13 +21,9 @@ getEventById.validationScheme = {
 }
 
 const getPinnedEvents = async (ctx) => {
-    ctx.body = await eventService.getPinnedEvents(ctx.request.body)
+    ctx.body = await eventService.getPinnedEvents(decode(ctx.headers.authorization.substr(7)).user.id)
 };
-getPinnedEvents.validationScheme = {
-    body: {
-        ids: Joi.array().items(Joi.string().uuid())
-    }
-}
+getPinnedEvents.validationScheme = null
 
 const searchEventByName = async (ctx) => {
     ctx.body = await eventService.searchEventByName(ctx.request.params.name, decode(ctx.headers.authorization.substr(7)).user.id)
@@ -69,15 +65,25 @@ updateByEventId.validationScheme = {
     }
 }
 
+const updateEventPinById = async (ctx) => {
+    ctx.body = await eventService.updateEventPinById(ctx.request.body, decode(ctx.headers.authorization.substr(7)).user.id)
+};
+updateEventPinById.validationScheme = {
+    body: {
+        id: Joi.string().uuid(),
+        pinned: Joi.boolean(),
+    }
+}
 module.exports = (app) => {
     const router = new Router({ prefix: "/event", });
 
     router.get("/", requireAuthentication, validate(getAllEventsByUserId.validationScheme), getAllEventsByUserId);
     router.get("/:id", requireAuthentication, validate(getEventById.validationScheme), getEventById);
-    
+
     router.get("/search/:name", requireAuthentication, validate(searchEventByName.validationScheme), searchEventByName);
-    router.get("/events/pinned", requireAuthentication, validate(getPinnedEvents.validationScheme), getPinnedEvents);
+    router.get("/pinned/all", requireAuthentication, validate(getPinnedEvents.validationScheme), getPinnedEvents);
     router.put("/", requireAuthentication, validate(updateByEventId.validationScheme), updateByEventId);
+    router.put("/pin", requireAuthentication, validate(updateEventPinById.validationScheme), updateEventPinById);
 
     app.use(router.routes()).use(router.allowedMethods());
 };

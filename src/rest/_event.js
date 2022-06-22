@@ -34,7 +34,7 @@ const searchEventByName = async (ctx) => {
 };
 searchEventByName.validationScheme = {
     params: {
-        name: Joi.string().min(2),
+        name: Joi.string().min(1),
     }
 }
 

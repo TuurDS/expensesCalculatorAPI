@@ -7,7 +7,7 @@ const { requireAuthentication } = require("../core/auth");
 const SplitTypes = require("../data/splitTypes");
 
 const getAllEventsByUserId = async (ctx) => {
-    ctx.body = await eventService.getAllByUserId(decode(ctx.headers.authorization.substr(7)).userId)
+    ctx.body = await eventService.getAllByUserId(decode(ctx.headers.authorization.substr(7)).user.id)
 };
 getAllEventsByUserId.validationScheme = null;
 
@@ -21,7 +21,7 @@ getEventById.validationScheme = {
 }
 
 const updateByEventId = async (ctx) => {
-    ctx.body = await eventService.updateByEventId(ctx.request.body, decode(ctx.headers.authorization.substr(7)).userId)
+    ctx.body = await eventService.updateByEventId(ctx.request.body, decode(ctx.headers.authorization.substr(7)).user.id)
 };
 updateByEventId.validationScheme = {
     body: {

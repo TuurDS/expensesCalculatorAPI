@@ -1,7 +1,17 @@
 const { sequelize, Event, User, Expense, Person, ExpensePerson } = require("../data/models")
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 const getAllByUserId = async (userId) => {
     return (await User.findOne({ where: { id: userId } })).getEvents();
+};
+
+const getPinnedEvents = async (pinnedEvents) => {
+    return (await Event.findAll({ where: { id: { [Op.in]: pinnedEvents}} }));
+};
+
+const searchByName = async (name,userId) => {
+    return (await Event.findAll({ where: { name: { [Op.substring]: `${name}`} , UserId: userId} }));
 };
 
 const getById = async (id) => {
@@ -85,5 +95,7 @@ module.exports = {
     getAllByUserId,
     getById,
     validate,
-    updateByEventId
+    updateByEventId,
+    searchByName,
+    getPinnedEvents
 };

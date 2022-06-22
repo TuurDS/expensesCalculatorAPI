@@ -20,6 +20,24 @@ getEventById.validationScheme = {
     }
 }
 
+const getPinnedEvents = async (ctx) => {
+    ctx.body = await eventService.getPinnedEvents(ctx.request.body)
+};
+getPinnedEvents.validationScheme = {
+    body: {
+        ids: Joi.array().items(Joi.string().uuid())
+    }
+}
+
+const searchEventByName = async (ctx) => {
+    ctx.body = await eventService.searchEventByName(ctx.request.params.name, decode(ctx.headers.authorization.substr(7)).user.id)
+};
+searchEventByName.validationScheme = {
+    params: {
+        name: Joi.string().min(2),
+    }
+}
+
 const updateByEventId = async (ctx) => {
     ctx.body = await eventService.updateByEventId(ctx.request.body, decode(ctx.headers.authorization.substr(7)).user.id)
 };
@@ -56,6 +74,9 @@ module.exports = (app) => {
 
     router.get("/", requireAuthentication, validate(getAllEventsByUserId.validationScheme), getAllEventsByUserId);
     router.get("/:id", requireAuthentication, validate(getEventById.validationScheme), getEventById);
+    
+    router.get("/search/:name", requireAuthentication, validate(searchEventByName.validationScheme), searchEventByName);
+    router.get("/events/pinned", requireAuthentication, validate(getPinnedEvents.validationScheme), getPinnedEvents);
     router.put("/", requireAuthentication, validate(updateByEventId.validationScheme), updateByEventId);
 
     app.use(router.routes()).use(router.allowedMethods());

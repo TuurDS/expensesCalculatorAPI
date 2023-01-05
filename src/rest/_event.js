@@ -34,13 +34,20 @@ searchEventByName.validationScheme = {
     }
 }
 
+const createEvent = async (ctx) => {
+    ctx.body = await eventService.create(decode(ctx.headers.authorization.substr(7)).user.id)
+};
+createEvent.validationScheme = null;
+
 const updateByEventId = async (ctx) => {
     ctx.body = await eventService.updateByEventId(ctx.request.body, decode(ctx.headers.authorization.substr(7)).user.id)
+    ctx.status = 200;
 };
 updateByEventId.validationScheme = {
     body: {
         id: Joi.string().uuid(),
         name: Joi.string(),
+        description: Joi.string(),
         People: Joi.array().items({
             id: Joi.string().uuid(),
             name: Joi.string()
@@ -82,8 +89,11 @@ module.exports = (app) => {
 
     router.get("/search/:name", requireAuthentication, validate(searchEventByName.validationScheme), searchEventByName);
     router.get("/pinned/all", requireAuthentication, validate(getPinnedEvents.validationScheme), getPinnedEvents);
+
     router.put("/", requireAuthentication, validate(updateByEventId.validationScheme), updateByEventId);
     router.put("/pin", requireAuthentication, validate(updateEventPinById.validationScheme), updateEventPinById);
+
+    router.post("/", requireAuthentication, validate(createEvent.validationScheme), createEvent);
 
     app.use(router.routes()).use(router.allowedMethods());
 };

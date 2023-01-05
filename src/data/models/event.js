@@ -31,6 +31,13 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg: 'name must not be empty' },
       }
     },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: { msg: 'Event must have a description' }
+      }
+    },
     pinned: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,

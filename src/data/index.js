@@ -3,6 +3,8 @@ const { getChildLogger } = require("../core/logging");
 
 async function initializeData() {
   await sequelize.authenticate();
+  //disable the loggin of the sql queries
+  sequelize.options.logging = false;
 }
 
 async function shutdownData() {

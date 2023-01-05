@@ -1,5 +1,5 @@
 const eventRepository = require("../repository/event");
-
+const ServiceError = require("../core/serviceError");
 
 const getAllByUserId = async (userId) => {
     try {
@@ -36,7 +36,8 @@ const searchEventByName = async (name, userId) => {
 const updateByEventId = async (object, userId) => {
     try {
         if (await eventRepository.validate(object, userId)) {
-            return await eventRepository.updateByEventId(object, userId);
+            await eventRepository.updateByEventId(object, userId);
+            return true;
         }
         return false;
     } catch (error) {
@@ -46,15 +47,23 @@ const updateByEventId = async (object, userId) => {
 
 
 const updateEventPinById = async (object, userId) => {
+    if (await eventRepository.validate(object, userId)) {
+        await eventRepository.updateEventPinById(object);
+        return { message: "Event pinned successfully", status: 200 }
+    }
+    throw ServiceError.notFound("Event not found");
+};
+
+
+const create = async (userId) => {
     try {
-        if (await eventRepository.validate(object, userId)) {
-            return await eventRepository.updateEventPinById(object);
-        }
-        return false;
+        const event = await eventRepository.create(userId);
+        return { message: "Event created successfully", eventId: event.id, status: 200 }
     } catch (error) {
-        console.error(error);
+        throw ServiceError.notFound("error while creating event");
     }
 };
+
 
 module.exports = {
     getAllByUserId,
@@ -62,5 +71,6 @@ module.exports = {
     updateByEventId,
     searchEventByName,
     getPinnedEvents,
-    updateEventPinById
+    updateEventPinById,
+    create
 };

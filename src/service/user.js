@@ -1,6 +1,6 @@
 const userRepository = require("../repository/user");
 const { generateJWT, verifyJWT } = require("../core/jwt");
-const { verifyPassword } = require("../core/password");
+const { verifyPassword, hashPassword } = require("../core/password");
 
 const ServiceError = require("../core/serviceError");
 const { getChildLogger } = require("../core/logging");
@@ -20,24 +20,32 @@ const makeLoginData = async (user) => {
 const makeExposedUser = ({ password, createdAt, updatedAt, ...user }) => user;
 
 const login = async (name, password) => {
-  try {
-    const user = await userRepository.findByName(name);
-    if (!user) {
-      throw new Error("Given password or name is incorrect");
-    }
-
-    const validPassword = await verifyPassword(password, user.password);
-    if (!validPassword) {
-      throw new Error("Given password or name is incorrect");
-    }
-
-    debugLog(`user ${name} has logged in`);
-    return await makeLoginData(user);
-  } catch (error) {
-    console.error(error);
+  const user = await userRepository.findByName(name);
+  if (!user) {
+    throw ServiceError.unauthorized("Given password or name is incorrect");
   }
+
+  const validPassword = await verifyPassword(password, user.password);
+  if (!validPassword) {
+    throw ServiceError.unauthorized("Given password or name is incorrect");
+  }
+
+  debugLog(`user ${name} has logged in`);
+  return await makeLoginData(user);
 };
 
+const register = async (name, password) => {
+  const user = await userRepository.findByName(name);
+  if (user) {
+    throw ServiceError.validationFailed("User with given name already exists");
+  }
+
+  const passwordHash = await hashPassword(password);
+  const newUser = await userRepository.create(name, passwordHash);
+  const foundUser = await userRepository.findByName(name);
+  debugLog(`user ${name} has registered`);
+  return await makeLoginData(foundUser);
+}
 
 const checkAndParseSession = async (authHeader) => {
   if (!authHeader) {
@@ -79,6 +87,7 @@ const checkBanRole = (role, roles) => {
 
 module.exports = {
   login,
+  register,
   checkAndParseSession,
   checkRequireRole,
   checkBanRole,

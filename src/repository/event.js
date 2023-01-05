@@ -26,7 +26,7 @@ const getById = async (id) => {
                 ]
             },
         ],
-        attributes: ['id', 'name', 'UserId']
+        attributes: ['id', 'name', 'description', 'UserId']
     });
 
     //format specific object in structure
@@ -53,7 +53,7 @@ const updateByEventId = async (obj, userId) => {
     const t = await sequelize.transaction();
     try {
         await (await Event.findOne({ where: { id: obj.id } }, { transaction: t })).destroy({ transaction: t });
-        await (Event.build({ id: obj.id, name: obj.name, UserId: userId }, { transaction: t })).save({ transaction: t });
+        await (Event.build({ id: obj.id, name: obj.name, description: obj.description, UserId: userId }, { transaction: t })).save({ transaction: t });
 
         await Promise.all(obj.People.map(async (person) => {
             return await (Person.build({
@@ -101,6 +101,24 @@ const updateEventPinById = async (object) => {
     return true;
 }
 
+
+const create = async (userId) => {
+    //this creates a new event with the default values
+    //name: "New Event"
+    //description: ""
+    //UserId: userId
+    //pinned: false
+    //create 1 person with name of the user who created the event
+    //creating with the default values
+    const event = await Event.create({ UserId: userId, name: "New Event", description: "", pinned: false });
+    //find the user by id
+    const user = await User.findByPk(userId);
+    //create a person linked to the event named after the user
+    const person = await Person.create({ name: user.name, EventId: event.id });
+
+    return event;
+}
+
 module.exports = {
     getAllByUserId,
     getById,
@@ -108,5 +126,6 @@ module.exports = {
     updateByEventId,
     searchByName,
     getPinnedEvents,
-    updateEventPinById
+    updateEventPinById,
+    create
 };

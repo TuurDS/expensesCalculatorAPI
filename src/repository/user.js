@@ -7,6 +7,16 @@ const findByName = async (username) => {
     return user;
 };
 
+const create = async (username, password) => {
+    const user = await User.create({
+        name: username,
+        password,
+        role: "USER"
+    });
+    return user;
+};
+
 module.exports = {
     findByName,
+    create
 };

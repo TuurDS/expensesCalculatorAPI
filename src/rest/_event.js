@@ -41,7 +41,6 @@ createEvent.validationScheme = null;
 
 const updateByEventId = async (ctx) => {
     ctx.body = await eventService.updateByEventId(ctx.request.body, decode(ctx.headers.authorization.substr(7)).user.id)
-    ctx.status = 200;
 };
 updateByEventId.validationScheme = {
     body: {
@@ -81,6 +80,38 @@ updateEventPinById.validationScheme = {
         pinned: Joi.boolean(),
     }
 }
+
+const updateDetailsByEventId = async (ctx) => {
+    ctx.body = await eventService.updateDetailsByEventId(ctx.request.body, decode(ctx.headers.authorization.substr(7)).user.id)
+};
+updateDetailsByEventId.validationScheme = {
+    body: {
+        id: Joi.string().uuid(),
+        name: Joi.string(),
+        description: Joi.string(),
+        People: Joi.array().items(Joi.string())
+    }
+}
+
+const updateExpenseByEventId = async (ctx) => {
+    ctx.body = await eventService.updateExpenseByEventId(ctx.request.body, decode(ctx.headers.authorization.substr(7)).user.id)
+};
+updateExpenseByEventId.validationScheme = {
+    body: {
+        id: Joi.string().uuid(),
+        description: Joi.string(),
+        amount: Joi.number().min(0),
+        date: Joi.date(),
+        splitType: Joi.string().valid(...Object.values(SplitTypes)),
+        paidname: Joi.string(),
+        includedPersons: Joi.array().items({
+            name: Joi.string(),
+            value: Joi.number().allow(null).min(0),
+        })
+    }
+}
+
+
 module.exports = (app) => {
     const router = new Router({ prefix: "/event", });
 
@@ -94,6 +125,7 @@ module.exports = (app) => {
     router.put("/pin", requireAuthentication, validate(updateEventPinById.validationScheme), updateEventPinById);
 
     router.post("/", requireAuthentication, validate(createEvent.validationScheme), createEvent);
-
+    router.put("/details", requireAuthentication, validate(updateDetailsByEventId.validationScheme), updateDetailsByEventId);
+    router.put("/expense", requireAuthentication, validate(updateExpenseByEventId.validationScheme), updateExpenseByEventId);
     app.use(router.routes()).use(router.allowedMethods());
 };

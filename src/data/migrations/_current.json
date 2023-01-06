@@ -109,17 +109,6 @@
                     "field": "EventId",
                     "seqType": "Sequelize.UUID"
                 },
-                "paidId": {
-                    "allowNull": true,
-                    "references": {
-                        "model": "person",
-                        "key": "id"
-                    },
-                    "onDelete": "SET NULL",
-                    "onUpdate": "CASCADE",
-                    "field": "paidId",
-                    "seqType": "Sequelize.UUID"
-                },
                 "PersonId": {
                     "allowNull": true,
                     "references": {
@@ -137,14 +126,9 @@
         "expensePerson": {
             "tableName": "expensePerson",
             "schema": {
-                "percentage": {
+                "value": {
                     "allowNull": true,
-                    "field": "percentage",
-                    "seqType": "Sequelize.DOUBLE PRECISION"
-                },
-                "amount": {
-                    "allowNull": true,
-                    "field": "amount",
+                    "field": "value",
                     "seqType": "Sequelize.DOUBLE PRECISION"
                 },
                 "createdAt": {
@@ -268,5 +252,5 @@
             "indexes": []
         }
     },
-    "revision": 3
+    "revision": 5
 }

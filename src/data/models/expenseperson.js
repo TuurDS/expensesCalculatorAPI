@@ -16,11 +16,7 @@ module.exports = (sequelize, DataTypes) => {
 
   }
   ExpensePerson.init({
-    percentage: {
-      type: DataTypes.DOUBLE,
-      allowNull: true,
-    },
-    amount: {
+    value: {
       type: DataTypes.DOUBLE,
       allowNull: true,
     },

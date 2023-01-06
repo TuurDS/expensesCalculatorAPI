@@ -137,14 +137,9 @@
         "expensePerson": {
             "tableName": "expensePerson",
             "schema": {
-                "percentage": {
+                "value": {
                     "allowNull": true,
-                    "field": "percentage",
-                    "seqType": "Sequelize.DOUBLE PRECISION"
-                },
-                "amount": {
-                    "allowNull": true,
-                    "field": "amount",
+                    "field": "value",
                     "seqType": "Sequelize.DOUBLE PRECISION"
                 },
                 "createdAt": {
@@ -199,7 +194,6 @@
                 },
                 "name": {
                     "allowNull": false,
-                    "unique": true,
                     "field": "name",
                     "seqType": "Sequelize.STRING"
                 },
@@ -269,5 +263,5 @@
             "indexes": []
         }
     },
-    "revision": 2
+    "revision": 4
 }

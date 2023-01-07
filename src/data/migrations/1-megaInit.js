@@ -15,8 +15,8 @@ var Sequelize = require('sequelize');
 
 var info = {
     "revision": 1,
-    "name": "mege-init",
-    "created": "2022-06-22T19:36:05.749Z",
+    "name": "megaInit",
+    "created": "2023-01-07T00:27:26.066Z",
     "comment": ""
 };
 
@@ -36,6 +36,7 @@ var migrationCommands = function (transaction) {
                 "name": {
                     "type": Sequelize.STRING,
                     "field": "name",
+                    "unique": true,
                     "allowNull": false
                 },
                 "password": {
@@ -79,6 +80,11 @@ var migrationCommands = function (transaction) {
                 "name": {
                     "type": Sequelize.STRING,
                     "field": "name",
+                    "allowNull": false
+                },
+                "description": {
+                    "type": Sequelize.STRING,
+                    "field": "description",
                     "allowNull": false
                 },
                 "pinned": {
@@ -129,7 +135,6 @@ var migrationCommands = function (transaction) {
                 "name": {
                     "type": Sequelize.STRING,
                     "field": "name",
-                    "unique": true,
                     "allowNull": false
                 },
                 "createdAt": {
@@ -245,14 +250,9 @@ var migrationCommands = function (transaction) {
         params: [
             "expensePerson",
             {
-                "percentage": {
+                "value": {
                     "type": Sequelize.DOUBLE,
-                    "field": "percentage",
-                    "allowNull": true
-                },
-                "amount": {
-                    "type": Sequelize.DOUBLE,
-                    "field": "amount",
+                    "field": "value",
                     "allowNull": true
                 },
                 "createdAt": {

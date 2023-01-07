@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
       validate: {
         notNull: { msg: 'User must have a name' },
         notEmpty: { msg: 'name must not be empty' },

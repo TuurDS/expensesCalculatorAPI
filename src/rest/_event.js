@@ -39,38 +39,6 @@ const createEvent = async (ctx) => {
 };
 createEvent.validationScheme = null;
 
-const updateByEventId = async (ctx) => {
-    ctx.body = await eventService.updateByEventId(ctx.request.body, decode(ctx.headers.authorization.substr(7)).user.id)
-};
-updateByEventId.validationScheme = {
-    body: {
-        id: Joi.string().uuid(),
-        name: Joi.string(),
-        description: Joi.string(),
-        People: Joi.array().items({
-            id: Joi.string().uuid(),
-            name: Joi.string()
-        }),
-        Expenses: Joi.array().items({
-            id: Joi.string().uuid(),
-            description: Joi.string(),
-            amount: Joi.number().min(0),
-            date: Joi.date(),
-            splitType: Joi.string().valid(...Object.values(SplitTypes)),
-            paid: Joi.object({
-                id: Joi.string().uuid(),
-                name: Joi.string()
-            }),
-            includedPersons: Joi.array().items({
-                id: Joi.string().uuid(),
-                name: Joi.string(),
-                percentage: Joi.number().allow(null).min(0).max(1),
-                amount: Joi.number().allow(null).min(0),
-            })
-        })
-    }
-}
-
 const updateEventPinById = async (ctx) => {
     ctx.body = await eventService.updateEventPinById(ctx.request.body, decode(ctx.headers.authorization.substr(7)).user.id)
 };
@@ -111,21 +79,63 @@ updateExpenseByEventId.validationScheme = {
     }
 }
 
+const deleteEventById = async (ctx) => {
+    ctx.body = await eventService.deleteEventById(ctx.request.params.id, decode(ctx.headers.authorization.substr(7)).user.id)
+};
+deleteEventById.validationScheme = {
+    params: {
+        id: Joi.string().uuid(),
+    }
+}
+
+const createExpenseByEventId = async (ctx) => {
+    //create the expense of the event by event id with default values so that the user can edit it later
+    //so we dont need body
+    ctx.body = await eventService.createExpenseByEventId(ctx.request.params.id, decode(ctx.headers.authorization.substr(7)).user.id)
+};
+createExpenseByEventId.validationScheme = {
+    params: {
+        id: Joi.string().uuid(),
+    }
+}
+
+const deleteExpenseByEventId = async (ctx) => {
+    ctx.body = await eventService.deleteExpenseByEventId(ctx.request.params.id, decode(ctx.headers.authorization.substr(7)).user.id)
+};
+deleteExpenseByEventId.validationScheme = {
+    params: {
+        id: Joi.string().uuid(),
+    }
+}
+
+const reportByEventId = async (ctx) => {
+    ctx.body = await eventService.reportByEventId(ctx.request.params.id, decode(ctx.headers.authorization.substr(7)).user.id)
+};
+reportByEventId.validationScheme = {
+    params: {
+        id: Joi.string().uuid(),
+    }
+}
+
 
 module.exports = (app) => {
     const router = new Router({ prefix: "/event", });
 
     router.get("/", requireAuthentication, validate(getAllEventsByUserId.validationScheme), getAllEventsByUserId);
     router.get("/:id", requireAuthentication, validate(getEventById.validationScheme), getEventById);
-
     router.get("/search/:name", requireAuthentication, validate(searchEventByName.validationScheme), searchEventByName);
     router.get("/pinned/all", requireAuthentication, validate(getPinnedEvents.validationScheme), getPinnedEvents);
-
-    router.put("/", requireAuthentication, validate(updateByEventId.validationScheme), updateByEventId);
-    router.put("/pin", requireAuthentication, validate(updateEventPinById.validationScheme), updateEventPinById);
+    router.get("/report/:id", requireAuthentication, validate(reportByEventId.validationScheme), reportByEventId);
 
     router.post("/", requireAuthentication, validate(createEvent.validationScheme), createEvent);
+    router.post("/expense/:id", requireAuthentication, validate(createExpenseByEventId.validationScheme), createExpenseByEventId);
+
+    router.put("/pin", requireAuthentication, validate(updateEventPinById.validationScheme), updateEventPinById);
     router.put("/details", requireAuthentication, validate(updateDetailsByEventId.validationScheme), updateDetailsByEventId);
     router.put("/expense", requireAuthentication, validate(updateExpenseByEventId.validationScheme), updateExpenseByEventId);
+
+    router.delete("/:id", requireAuthentication, validate(deleteEventById.validationScheme), deleteEventById);
+    router.delete("/expense/:id", requireAuthentication, validate(deleteExpenseByEventId.validationScheme), deleteExpenseByEventId);
+
     app.use(router.routes()).use(router.allowedMethods());
 };

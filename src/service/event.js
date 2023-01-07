@@ -5,7 +5,7 @@ const getAllByUserId = async (userId) => {
     try {
         return await eventRepository.getAllByUserId(userId);
     } catch (error) {
-        console.error(error);
+        throw ServiceError.notFound("event not found");
     }
 };
 
@@ -13,7 +13,7 @@ const getById = async (id) => {
     try {
         return await eventRepository.getById(id);
     } catch (error) {
-        console.error(error);
+        throw ServiceError.notFound("event not found");
     }
 };
 
@@ -21,7 +21,7 @@ const getPinnedEvents = async (userId) => {
     try {
         return await eventRepository.getPinnedEvents(userId);
     } catch (error) {
-        console.error(error);
+        throw ServiceError.notFound("event not found");
     }
 };
 
@@ -29,19 +29,7 @@ const searchEventByName = async (name, userId) => {
     try {
         return await eventRepository.searchByName(name, userId);
     } catch (error) {
-        console.error(error);
-    }
-};
-
-const updateByEventId = async (object, userId) => {
-    try {
-        if (await eventRepository.validate(object.id, userId)) {
-            await eventRepository.updateByEventId(object, userId);
-            return true;
-        }
-        return false;
-    } catch (error) {
-        throw ServiceError.validationFailed("error while updating event");
+        throw ServiceError.notFound("event not found");
     }
 };
 
@@ -88,14 +76,66 @@ const updateExpenseByEventId = async (object, userId) => {
     }
 };
 
+const deleteEventById = async (id, userId) => {
+    try {
+        if (await eventRepository.validate(id, userId)) {
+            await eventRepository.deleteEventById(id);
+            return { message: "Event deleted successfully", status: 200 };
+        }
+        throw ServiceError.unauthorized("you are not authorized to delete this event");
+    } catch (error) {
+        throw ServiceError.validationFailed("error while deleting event");
+    }
+};
+
+const createExpenseByEventId = async (id, userId) => {
+    try {
+        if (await eventRepository.validate(id, userId)) {
+            const expense = await eventRepository.createExpenseByEventId(id);
+            return { message: "Expense created successfully", expenseId: expense.id, status: 200 };
+        }
+        throw ServiceError.unauthorized("you are not authorized to create expense for this event");
+    } catch (error) {
+        throw ServiceError.validationFailed("error while creating expense");
+    }
+};
+
+const deleteExpenseByEventId = async (id, userId) => {
+    try {
+        if (await eventRepository.validateExpense(id, userId)) {
+            await eventRepository.deleteExpenseByEventId(id);
+            return { message: "Expense deleted successfully", status: 200 };
+        }
+        throw ServiceError.unauthorized("you are not authorized to delete this expense");
+    } catch (error) {
+        throw ServiceError.validationFailed("error while deleting expense");
+    }
+};
+
+const reportByEventId = async (id, userId) => {
+    try {
+        if (await eventRepository.validate(id, userId)) {
+            const report = await eventRepository.reportByEventId(id);
+            return report;
+        }
+        throw ServiceError.unauthorized("you are not authorized to generate report for this event");
+    } catch (error) {
+        throw ServiceError.validationFailed("error while generating report");
+    }
+};
+
+
 module.exports = {
     getAllByUserId,
     getById,
-    updateByEventId,
     searchEventByName,
     getPinnedEvents,
     updateEventPinById,
     create,
     updateDetailsByEventId,
-    updateExpenseByEventId
+    updateExpenseByEventId,
+    deleteEventById,
+    createExpenseByEventId,
+    deleteExpenseByEventId,
+    reportByEventId
 };
